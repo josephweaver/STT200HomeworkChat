@@ -84,13 +84,16 @@ def get_conversation_text_user_focused(conversation, allquestions =False):
         if msg["role"] == "assistant":
             if msg["meta"]=='question':
                 question = f"Assistant: {msg['content']}"
-                if not allquestions:
+                if not allquestions: 
                     filtered = []
+                else:
+                    filtered.append(question)
             elif msg['meta']=='grading':
                 filtered.append(f"Grader: {msg['content']}")
         elif msg["role"] == "user" and question:
             filtered.append(f"User: {msg['content']}")
-    filtered = [question] + filtered
+    if not allquestions:
+        filtered.insert(0,question)
     return "\n".join(filtered)
 def grade_question(conversation):
     conv_text = get_conversation_text_user_focused(conversation,False)
