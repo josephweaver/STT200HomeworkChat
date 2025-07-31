@@ -34,7 +34,7 @@ with open("instructions.txt",'r') as f:
 with open("coffee.txt",'r') as f:
     lession= f.read()
 
-welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results."
+#welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results."
 
 # Load or initialize chat history
 if os.path.exists(session_file):
@@ -46,7 +46,7 @@ else:
     context = [
         {"role": "system", "content": instructions},
         {"role": "assistant", "content": lession}
-     #   {"role": "assistant", "content": welcome_msg}
+        {"role": "assistant", "content": "Introduce the problem set. Display the data. Ask the first question."}
     ]
     conversation = []
 
@@ -54,6 +54,7 @@ else:
 for entry in conversation:
     with st.chat_message(entry["role"]):
         st.markdown(entry["content"])
+
 # Start the conversation;
 response = openai.ChatCompletion.create(
         model="gpt-4",
@@ -67,23 +68,24 @@ with st.chat_message("assistant"):
 
 # Chat input
 if prompt := st.chat_input("Type your answer or ask a question..."):
-    context.append({"role": "user", "content": prompt})
-    conversation.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+    with st.spinner("thinking..."):
+        context.append({"role": "user", "content": prompt})
+        conversation.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=context
-    )
-    assistant_message = response.choices[0].message.content
-    context.append({"role": "assistant", "content": assistant_message})
-    conversation.append({"role": "assistant", "content": assistant_message})
-    with st.chat_message("assistant"):
-        st.markdown(assistant_message)
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=context
+        )
+        assistant_message = response.choices[0].message.content
+        context.append({"role": "assistant", "content": assistant_message})
+        conversation.append({"role": "assistant", "content": assistant_message})
+        with st.chat_message("assistant"):
+            st.markdown(assistant_message)
 
-    with open(session_file, "w") as f:
-        json.dump({"context": context, "conversation": conversation}, f)
+        with open(session_file, "w") as f:
+            json.dump({"context": context, "conversation": conversation}, f)
 
 # Grading rubric
 rubric_prompt = """You are grading a student's overall conversation with a tutor about probability, using the coffee shop scenario.
