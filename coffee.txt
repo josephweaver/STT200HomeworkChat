@@ -5,13 +5,13 @@
 - Conditional probability
 - Business interpretation of results
 
-
 The student runs a cozy coffee shop and you’re interested in how your drinks perform throughout the year. You track sales for hot drinks and cold drinks during Winter, Spring, Summer, and Fall.
 Here’s the data for a full year:
 	Winter	Spring	Summer	Fall	Total
 Hot Drinks	100	60	40	100	300
 Cold Drinks	20	40	120	40	220
 Total	120	100	160	140	520
+
 Simple probability:
 What’s the probability of picking a hot drink?
 300 / 520 ≈ 0.577

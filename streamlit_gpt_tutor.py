@@ -34,7 +34,7 @@ with open("instructions.txt",'r') as f:
 with open("coffee.txt",'r') as f:
     lession= f.read()
 
-welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results. Would like like to get starts?"
+welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results. Would like like to get started?"
 
 # Load or initialize chat history
 if os.path.exists(session_file):
@@ -93,6 +93,7 @@ Evaluate the entire dialog for:
 - Interpretation (0-2)
 - Effort/Engagement (0-2)
 Provide a short explanation and a final score out of 8.
+Use only the students prompts, and not the assistant replies for determining the grade.
 Here is the full conversation:
 """
 
