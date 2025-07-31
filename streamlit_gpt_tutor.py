@@ -46,7 +46,7 @@ else:
     context = [
         {"role": "system", "content": "Instructions: "+instructions},
         {"role": "assistant", "content": "Lession:"+lession},
-        {"role": "assistant", "content": "Start the conversation."}
+        {"role": "assistant", "content": "Start the conversation by displaying the data (if any) and asking the first question."}
     ]
     conversation = []
     # Start the conversation;
