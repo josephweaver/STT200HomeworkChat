@@ -8,7 +8,7 @@ import pandas as pd
 
 st.set_page_config(page_title="STT 200 Coffee Shop Tutor", page_icon="☕")
 st.title("🧠 STT 200 Coffee Shop Tutor (Coffee Shop Scenario)")
-st.markdown("You’ll talk to an AI tutor about probability. When you're done, click 'Grade Conversation' to get feedback and your score.")
+st.markdown("You’ll talk to an AI tutor about probability. When you're done, click 'Grade Conversation' to get feedback and your score.  The grading system can only see your responses so try to be verbose.")
 
 # Sidebar for student info
 with st.sidebar:
@@ -33,6 +33,11 @@ with open("instructions.txt",'r') as f:
 # load the lesson plan.
 with open("coffee.txt",'r') as f:
     lession= f.read()
+
+# load the grader instructions.
+with open("rubic.txt",'r') as f:
+    rubric= f.read()
+
 
 #welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results."
 
@@ -68,6 +73,26 @@ else:
 
 
 
+def get_conversation_text_user_focused(conversation):
+    filtered = []
+    question = None
+    for msg in conversation:
+        if msg["role"] == "assistant" and re.search(r"\\bQ\\d+\\b", msg["content"]):
+            question = msg["content"]
+        elif msg["role"] == "user" and question:
+            filtered.append(f"Assistant: {question}")
+            filtered.append(f"User: {msg['content']}")
+    return "\n".join(filtered)
+
+def grade_entire_conversation(conversation):
+    #conv_text = "\n".join([f"{msg['role'].capitalize()}: {msg['content']}" for msg in conversation if msg['role']=='user'])
+    conv_text = get_conversation_text_user_focused(conversation)
+    grading_prompt = rubric + conv_text
+    result = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": grading_prompt}]
+    )
+    return result.choices[0].message.content
 
 
 # Chat input
@@ -77,7 +102,9 @@ if prompt := st.chat_input("Type your answer or ask a question..."):
         conversation.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
-
+        grade_results= grade_entire_conversation(conversation)
+        context.append({"role": "grader", "content": grade_results})
+        conversation.append({"role": "grader", "content": grade_results})
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=context
@@ -92,25 +119,18 @@ if prompt := st.chat_input("Type your answer or ask a question..."):
             json.dump({"context": context, "conversation": conversation}, f)
 
 # Grading rubric
-rubric_prompt = """You are grading a student's overall conversation with a tutor about probability, using the coffee shop scenario.
-Evaluate the entire dialog for:
-- Correctness (0-2)
-- Justification (0-2)
-- Interpretation (0-2)
-- Effort/Engagement (0-2)
-Provide a short explanation and a final score out of 8.
-Use only the user prompts, and not the assistant replies for determining the grade.
-Here is the full conversation:
-"""
+# rubric_prompt = """You are grading a student's overall conversation with a tutor about probability, using the coffee shop scenario.
+# Evaluate the entire dialog for:
+# - Correctness (0-2)
+# - Justification (0-2)
+# - Interpretation (0-2)
+# - Effort/Engagement (0-2)
+# Provide a short explanation and a final score out of 8.
+# Use only the user prompts, and not the assistant replies for determining the grade.
+# Here is the users prompts from the conversation:
+# """
 
-def grade_entire_conversation(conversation):
-    conv_text = "\n".join([f"{msg['role'].capitalize()}: {msg['content']}" for msg in conversation])
-    grading_prompt = rubric_prompt + conv_text
-    result = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": grading_prompt}]
-    )
-    return result.choices[0].message.content
+
 
 # Grade Button
 if st.button("🎓 Grade Conversation"):
