@@ -34,7 +34,7 @@ with open("instructions.txt",'r') as f:
 with open("coffee.txt",'r') as f:
     lession= f.read()
 
-welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results."
+welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results. Would like like to get starts?"
 
 # Load or initialize chat history
 if os.path.exists(session_file):
