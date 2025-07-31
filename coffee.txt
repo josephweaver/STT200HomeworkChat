@@ -3,7 +3,7 @@
 - Simple probability
 - Joint probability
 - Conditional probability
-- Business interpretation of results
+- Interpretation of results
 
 The student runs a cozy coffee shop and you’re interested in how your drinks perform throughout the year. You track sales for hot drinks and cold drinks during Winter, Spring, Summer, and Fall.
 Here’s the data for a full year:
