@@ -49,8 +49,9 @@ if os.path.exists(session_file):
     conversation = data["conversation"]
     # Display conversation
     for entry in conversation:
-        with st.chat_message(entry["role"]):
-            st.markdown(entry["content"])
+        if entry["meta"] != 'grader':
+            with st.chat_message(entry["role"]):
+                st.markdown(entry["content"])
 else:
     context = [
         {"role": "system", "content": "Instructions: "+instructions},
@@ -63,11 +64,15 @@ else:
         messages=context
     )
     assistant_message = response.choices[0].message.content
-    context.append({"role": "assistant", "content": assistant_message})
-    conversation.append({"role": "assistant", "content": assistant_message})
+    if re.search(r"\\bQ\\d+\\b", assistant_message):
+        meta = "question"
+    else:
+        meta = "tutoring"
+    context.append({"role": "assistant", "content": assistant_message,"meta":meta})
+    conversation.append({"role": "assistant", "content": assistant_message,"meta":meta})
     with st.chat_message("assistant"):
         st.markdown(assistant_message)
-
+    
     with open(session_file, "w") as f:
         json.dump({"context": context, "conversation": conversation}, f)
 
@@ -77,10 +82,14 @@ def get_conversation_text_user_focused(conversation):
     filtered = []
     question = None
     for msg in conversation:
-        if msg["role"] == "assistant" and re.search(r"\\bQ\\d+\\b", msg["content"]):
-            question = msg["content"]
+        if msg["role"] == "assistant":
+            if msg["meta"]=='question':
+                filtered.append(f"Assistant: {msg['content']}")
+                question = msg["content"]
+            elif msg['meta']=='grading':
+                filtered.append(f"Grader: {msg['content']}")
         elif msg["role"] == "user" and question:
-            filtered.append(f"Assistant: {question}")
+            
             filtered.append(f"User: {msg['content']}")
     return "\n".join(filtered)
 
@@ -103,15 +112,19 @@ if prompt := st.chat_input("Type your answer or ask a question..."):
         with st.chat_message("user"):
             st.markdown(prompt)
         grade_results= grade_entire_conversation(conversation)
-        context.append({"role": "grader", "content": grade_results})
-        conversation.append({"role": "grader", "content": grade_results})
+        context.append({"role": "assistant", "content": grade_results,"meta": "grader"})
+        conversation.append({"role": "assistant", "content": grade_results, "meta":"grader"})
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=context
         )
         assistant_message = response.choices[0].message.content
-        context.append({"role": "assistant", "content": assistant_message})
-        conversation.append({"role": "assistant", "content": assistant_message})
+        if re.search(r"\\bQ\\d+\\b", assistant_message):
+            meta = "question"
+        else:
+            meta = "tutoring"
+        context.append({"role": "assistant", "content": assistant_message,"meta":meta})
+        conversation.append({"role": "assistant", "content": assistant_message,"meta":meta})
         with st.chat_message("assistant"):
             st.markdown(assistant_message)
 
