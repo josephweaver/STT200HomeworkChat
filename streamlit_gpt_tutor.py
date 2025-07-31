@@ -45,7 +45,7 @@ if os.path.exists(session_file):
 else:
     context = [
         {"role": "system", "content": instructions},
-        {"role": "assistant", "content": lession}
+        {"role": "assistant", "content": lession},
         {"role": "assistant", "content": "Introduce the problem set. Display the data. Ask the first question."}
     ]
     conversation = []
