@@ -5,8 +5,7 @@ import os
 import re
 import pandas as pd
 
-
-
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(page_title="STT 200 Coffee Shop Tutor", page_icon="☕")
 st.title("🧠 STT 200 Coffee Shop Tutor (Coffee Shop Scenario)")
@@ -19,11 +18,11 @@ with st.sidebar:
     student_name = st.text_input("Full Name (optional)")
     student_email = st.text_input("Email (optional)")
 
-if not student_id or not api_key:
+if not student_id:
     st.warning("Please enter your Student ID.")
     st.stop()
 
-openai.api_key = api_key
+openai.api_key = os.getenv('')
 session_file = f"gpt_session_{student_id.strip()}.json"
 scenario = "Coffee Shop"
 
