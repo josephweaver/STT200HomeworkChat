@@ -24,7 +24,7 @@ if not student_id:
     st.warning("Please enter your Student ID")
     st.stop()
 
-openai.api_key = api_key
+
 session_id = student_id.strip()
 session_file = f"gpt_session_{session_id}.json"
 scenario = "Coffee Shop"
