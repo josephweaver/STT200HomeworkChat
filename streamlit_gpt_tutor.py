@@ -77,24 +77,32 @@ else:
 
 
 
-def get_conversation_text_user_focused(conversation):
+def get_conversation_text_user_focused(conversation, allquestions =False):
     filtered = []
     question = None
     for msg in conversation:
         if msg["role"] == "assistant":
             if msg["meta"]=='question':
-                filtered.append(f"Assistant: {msg['content']}")
-                question = msg["content"]
+                question = f"Assistant: {msg['content']}"
+                if not allquestions:
+                    filtered = []
             elif msg['meta']=='grading':
                 filtered.append(f"Grader: {msg['content']}")
         elif msg["role"] == "user" and question:
-            
             filtered.append(f"User: {msg['content']}")
+    filtered = [question] + filtered
     return "\n".join(filtered)
-
+def grade_question(conversation):
+    conv_text = get_conversation_text_user_focused(conversation,False)
+    grading_prompt = rubric + conv_text
+    result = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": grading_prompt + "\n Be as breif as possible."}]
+    )
+    return result.choices[0].message.content
 def grade_entire_conversation(conversation):
     #conv_text = "\n".join([f"{msg['role'].capitalize()}: {msg['content']}" for msg in conversation if msg['role']=='user'])
-    conv_text = get_conversation_text_user_focused(conversation)
+    conv_text = get_conversation_text_user_focused(conversation, True)
     grading_prompt = rubric + conv_text
     result = openai.ChatCompletion.create(
         model="gpt-4",
@@ -110,9 +118,11 @@ if prompt := st.chat_input("Type your answer or ask a question..."):
         conversation.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
-        grade_results= grade_entire_conversation(conversation)
+        grade_results= grade_question(conversation)
         context.append({"role": "assistant", "content": grade_results,"meta": "grader"})
         conversation.append({"role": "assistant", "content": grade_results, "meta":"grader"})
+        with st.chat_message("grader"):
+            st.markdown(grade_results)
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=context
@@ -129,20 +139,6 @@ if prompt := st.chat_input("Type your answer or ask a question..."):
 
         with open(session_file, "w") as f:
             json.dump({"context": context, "conversation": conversation}, f)
-
-# Grading rubric
-# rubric_prompt = """You are grading a student's overall conversation with a tutor about probability, using the coffee shop scenario.
-# Evaluate the entire dialog for:
-# - Correctness (0-2)
-# - Justification (0-2)
-# - Interpretation (0-2)
-# - Effort/Engagement (0-2)
-# Provide a short explanation and a final score out of 8.
-# Use only the user prompts, and not the assistant replies for determining the grade.
-# Here is the users prompts from the conversation:
-# """
-
-
 
 # Grade Button
 if st.button("🎓 Grade Conversation"):
