@@ -53,16 +53,18 @@ else:
         {"role": "assistant", "content": "Start the conversation by displaying the data (if any) and asking the first question."}
     ]
     conversation = []
-    # # Start the conversation;
-    # response = openai.ChatCompletion.create(
-    #         model="gpt-4",
-    #         messages=context
-    #     )
-    # assistant_message = response.choices[0].message.content
-    # context.append({"role": "assistant", "content": assistant_message})
-    # conversation.append({"role": "assistant", "content": assistant_message})
-    # with st.chat_message("assistant"):
-    #     st.markdown(assistant_message)
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=context
+    )
+    assistant_message = response.choices[0].message.content
+    context.append({"role": "assistant", "content": assistant_message})
+    conversation.append({"role": "assistant", "content": assistant_message})
+    with st.chat_message("assistant"):
+        st.markdown(assistant_message)
+
+    with open(session_file, "w") as f:
+        json.dump({"context": context, "conversation": conversation}, f)
 
 
 
