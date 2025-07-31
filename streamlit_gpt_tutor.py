@@ -49,22 +49,23 @@ else:
         {"role": "assistant", "content": "Introduce the purpose of this conversation.  Ask if the student has any questions about the learning objectives or if they want to begin."}
     ]
     conversation = []
+    # Start the conversation;
+    response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=context
+        )
+    assistant_message = response.choices[0].message.content
+    context.append({"role": "assistant", "content": assistant_message})
+    conversation.append({"role": "assistant", "content": assistant_message})
+    with st.chat_message("assistant"):
+        st.markdown(assistant_message)
+
 
 # Display conversation
 for entry in conversation:
     with st.chat_message(entry["role"]):
         st.markdown(entry["content"])
 
-# Start the conversation;
-response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=context
-    )
-assistant_message = response.choices[0].message.content
-context.append({"role": "assistant", "content": assistant_message})
-conversation.append({"role": "assistant", "content": assistant_message})
-with st.chat_message("assistant"):
-    st.markdown(assistant_message)
 
 # Chat input
 if prompt := st.chat_input("Type your answer or ask a question..."):
