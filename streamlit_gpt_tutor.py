@@ -123,6 +123,7 @@ if total_score < 32:
                 "feedbacks": feedbacks,
                 "responses": responses
             }, f)
+        st.experimental_rerun()
 else:
     st.balloons()
     st.success("🎉 Full credit achieved! Your session is complete.")
