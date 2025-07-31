@@ -79,7 +79,7 @@ else:
 
 def get_conversation_text_user_focused(conversation, allquestions =False):
     filtered = []
-    question = None
+    question = "ERROR: question missing."
     for msg in conversation:
         if msg["role"] == "assistant":
             if msg["meta"]=='question':
@@ -88,7 +88,7 @@ def get_conversation_text_user_focused(conversation, allquestions =False):
                     filtered = []
                 else:
                     filtered.append(question)
-            elif msg['meta']=='grading':
+            elif msg['meta']=='grader':
                 filtered.append(f"Grader: {msg['content']}")
         elif msg["role"] == "user" and question:
             filtered.append(f"User: {msg['content']}")
