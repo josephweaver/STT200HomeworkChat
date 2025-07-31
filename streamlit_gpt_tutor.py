@@ -34,7 +34,7 @@ with open("instructions.txt",'r') as f:
 with open("coffee.txt",'r') as f:
     lession= f.read()
 
-welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results. Would like like to get started?"
+welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are thinking and fully explain your results."
 
 # Load or initialize chat history
 if os.path.exists(session_file):
@@ -45,8 +45,8 @@ if os.path.exists(session_file):
 else:
     context = [
         {"role": "system", "content": instructions},
-        {"role": "assistant", "content": lession},
-        {"role": "assistant", "content": welcome_msg}
+        {"role": "assistant", "content": lession}
+     #   {"role": "assistant", "content": welcome_msg}
     ]
     conversation = []
 
