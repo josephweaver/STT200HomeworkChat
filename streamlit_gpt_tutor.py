@@ -27,7 +27,7 @@ session_file = f"gpt_session_{student_id.strip()}.json"
 scenario = "Coffee Shop"
 
 # load the general instructions
-with open("instruction.txt",'r') as f:
+with open("instructions.txt",'r') as f:
     instructions= f.read()
 
 # load the lesson plan.
