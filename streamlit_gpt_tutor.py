@@ -46,7 +46,7 @@ else:
     context = [
         {"role": "system", "content": instructions},
         {"role": "assistant", "content": lession},
-        {"role": "assistant", "content": "Introduce the problem set. Display the data. Ask the first question."}
+        {"role": "assistant", "content": "Introduce the purpose of this conversation.  Ask if the student has any questions about the learning objectives or if they want to begin."}
     ]
     conversation = []
 
@@ -95,7 +95,7 @@ Evaluate the entire dialog for:
 - Interpretation (0-2)
 - Effort/Engagement (0-2)
 Provide a short explanation and a final score out of 8.
-Use only the students prompts, and not the assistant replies for determining the grade.
+Use only the user prompts, and not the assistant replies for determining the grade.
 Here is the full conversation:
 """
 
