@@ -35,7 +35,7 @@ with open("coffee.txt",'r') as f:
     lession= f.read()
 
 # load the grader instructions.
-with open("rubic.txt",'r') as f:
+with open("rubric.txt",'r') as f:
     rubric= f.read()
 
 
