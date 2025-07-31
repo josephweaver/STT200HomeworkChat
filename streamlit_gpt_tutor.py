@@ -5,6 +5,9 @@ import os
 import re
 import pandas as pd
 
+
+
+
 st.set_page_config(page_title="STT 200 Coffee Shop Tutor", page_icon="☕")
 st.title("🧠 STT 200 Coffee Shop Tutor (Coffee Shop Scenario)")
 st.markdown("You’ll talk to an AI tutor about probability. When you're done, click 'Grade Conversation' to get feedback and your score.")
@@ -12,18 +15,27 @@ st.markdown("You’ll talk to an AI tutor about probability. When you're done, c
 # Sidebar for student info
 with st.sidebar:
     st.header("Student Info")
-    student_name = st.text_input("Full Name")
     student_id = st.text_input("Student ID (required to save progress)", max_chars=20)
+    student_name = st.text_input("Full Name (optional)")
     student_email = st.text_input("Email (optional)")
-    api_key = st.secrets.get("OPENAI_API_KEY", st.text_input("OpenAI API Key", type="password"))
 
 if not student_id or not api_key:
-    st.warning("Please enter your Student ID and API key to begin.")
+    st.warning("Please enter your Student ID.")
     st.stop()
 
 openai.api_key = api_key
 session_file = f"gpt_session_{student_id.strip()}.json"
 scenario = "Coffee Shop"
+
+# load the general instructions
+with open("instruction.txt",'r') as f:
+    instructions= f.read()
+
+# load the lesson plan.
+with open("coffee.txt",'r') as f:
+    lession= f.read()
+
+welcome_msg = "Welcome! Let's start working through questions together. please try and be verbose about what you are think and fully explain your final answer."
 
 # Load or initialize chat history
 if os.path.exists(session_file):
@@ -33,22 +45,23 @@ if os.path.exists(session_file):
     conversation = data["conversation"]
 else:
     context = [
-        {"role": "system", "content": "You are a friendly but rigorous statistics tutor helping students learn probability using a Coffee Shop seasonal drink scenario. Ask questions, give feedback, and continue the conversation naturally."},
-        {"role": "assistant", "content": "Welcome! Let's look at the coffee shop sales data and start working through some probability questions. Ready?"}
+        {"role": "system", "content": instructions},
+        {"role": "assistant", "content": st.session_state["scenario_text"]},
+        {"role": "assistant", "content": welcome_msg}
     ]
     conversation = []
 
-# Display Coffee Shop table
-st.markdown("""
-### Coffee Shop Drink Sales Data
-| Season | Hot Drinks | Cold Drinks | Total |
-|--------|------------|-------------|--------|
-| Winter | 100        | 20          | 120    |
-| Spring | 60         | 40          | 100    |
-| Summer | 40         | 120         | 160    |
-| Fall   | 100        | 40          | 140    |
-| **Total** | **300** | **220**     | **520** |
-""")
+# # Display Coffee Shop table
+# st.markdown("""
+# ### Coffee Shop Drink Sales Data
+# | Season | Hot Drinks | Cold Drinks | Total |
+# |--------|------------|-------------|--------|
+# | Winter | 100        | 20          | 120    |
+# | Spring | 60         | 40          | 100    |
+# | Summer | 40         | 120         | 160    |
+# | Fall   | 100        | 40          | 140    |
+# | **Total** | **300** | **220**     | **520** |
+# """)
 
 # Display conversation
 for entry in conversation:

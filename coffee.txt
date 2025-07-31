@@ -1,0 +1,26 @@
+📚 Learning objectives:
+
+- Simple probability
+- Joint probability
+- Conditional probability
+- Business interpretation of results
+
+
+The student runs a cozy coffee shop and you’re interested in how your drinks perform throughout the year. You track sales for hot drinks and cold drinks during Winter, Spring, Summer, and Fall.
+Here’s the data for a full year:
+	Winter	Spring	Summer	Fall	Total
+Hot Drinks	100	60	40	100	300
+Cold Drinks	20	40	120	40	220
+Total	120	100	160	140	520
+Simple probability:
+What’s the probability of picking a hot drink?
+300 / 520 ≈ 0.577
+Joint probability:
+What’s the probability of picking a cold drink in summer?
+120 / 520 ≈ 0.231
+Conditional probability:
+Given it’s summer, what’s the probability the drink is cold?
+120 / 160 = 0.75
+Decision-oriented:
+If you want to boost cold drink sales in Spring, what marketing strategies might help?
+Or, if hot drinks sell well in Winter and Fall, how could you capitalize on that?
