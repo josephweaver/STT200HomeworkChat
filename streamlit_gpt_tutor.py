@@ -16,10 +16,12 @@ with st.sidebar:
     student_name = st.text_input("Full Name")
     student_id = st.text_input("Student ID (required to resume)", max_chars=20)
     student_email = st.text_input("Email (optional)")
-    api_key = st.text_input("OpenAI API Key", type="password")
 
-if not student_id or not api_key:
-    st.warning("Please enter your Student ID and API key to begin.")
+openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+
+if not student_id:
+    st.warning("Please enter your Student ID")
     st.stop()
 
 openai.api_key = api_key
