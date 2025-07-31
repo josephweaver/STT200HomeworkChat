@@ -55,7 +55,7 @@ else:
     context = [
         {"role": "system", "content": "Instructions: "+instructions},
         {"role": "assistant", "content": "Lession:"+lession},
-        {"role": "assistant", "content": "Start the conversation by displaying the data (if any) and asking the first question."}
+        {"role": "assistant", "content": "Start the conversation by 1. introducing the scenario, 2. displaying the data (if any) 3. Ask the first question."}
     ]
     conversation = []
     response = openai.ChatCompletion.create(
