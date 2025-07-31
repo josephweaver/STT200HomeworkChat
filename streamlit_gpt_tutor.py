@@ -50,22 +50,20 @@ else:
     ]
     conversation = []
 
-# # Display Coffee Shop table
-# st.markdown("""
-# ### Coffee Shop Drink Sales Data
-# | Season | Hot Drinks | Cold Drinks | Total |
-# |--------|------------|-------------|--------|
-# | Winter | 100        | 20          | 120    |
-# | Spring | 60         | 40          | 100    |
-# | Summer | 40         | 120         | 160    |
-# | Fall   | 100        | 40          | 140    |
-# | **Total** | **300** | **220**     | **520** |
-# """)
-
 # Display conversation
 for entry in conversation:
     with st.chat_message(entry["role"]):
         st.markdown(entry["content"])
+# Start the conversation;
+response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=context
+    )
+assistant_message = response.choices[0].message.content
+context.append({"role": "assistant", "content": assistant_message})
+conversation.append({"role": "assistant", "content": assistant_message})
+with st.chat_message("assistant"):
+    st.markdown(assistant_message)
 
 # Chat input
 if prompt := st.chat_input("Type your answer or ask a question..."):
