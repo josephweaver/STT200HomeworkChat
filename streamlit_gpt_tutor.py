@@ -49,14 +49,13 @@ if os.path.exists(session_file):
     conversation = data["conversation"]
     # Display conversation
     for entry in conversation:
-        if entry["meta"] != 'grader':
-            with st.chat_message(entry["role"]):
-                st.markdown(entry["content"])
+        with st.chat_message(entry["role"]):
+            st.markdown(entry["content"])
 else:
     context = [
         {"role": "system", "content": "Instructions: "+instructions},
         {"role": "assistant", "content": "Lession:"+lession},
-        {"role": "assistant", "content": "Start the conversation by 1. introducing the scenario, 2. displaying the data (if any) 3. Ask the first question."}
+        {"role": "assistant", "content": "Start the conversation by 1. introducing the scenario, 2. displaying the data as table (if any) 3. Ask the first question."}
     ]
     conversation = []
     response = openai.ChatCompletion.create(
