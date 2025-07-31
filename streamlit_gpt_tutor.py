@@ -42,6 +42,10 @@ if os.path.exists(session_file):
         data = json.load(f)
     context = data["context"]
     conversation = data["conversation"]
+    # Display conversation
+    for entry in conversation:
+        with st.chat_message(entry["role"]):
+            st.markdown(entry["content"])
 else:
     context = [
         {"role": "system", "content": "Instructions: "+instructions},
@@ -61,10 +65,7 @@ else:
     #     st.markdown(assistant_message)
 
 
-# Display conversation
-for entry in conversation:
-    with st.chat_message(entry["role"]):
-        st.markdown(entry["content"])
+
 
 
 # Chat input
