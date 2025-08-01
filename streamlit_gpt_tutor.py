@@ -8,7 +8,7 @@ import pandas as pd
 
 st.set_page_config(page_title="STT 200 Coffee Shop Tutor", page_icon="☕")
 st.title("🧠 STT 200 Coffee Shop Tutor (Coffee Shop Scenario)")
-st.markdown("You’ll talk to an AI tutor about probability. When you're done, click 'Grade Conversation' to get feedback and your score.  The grading system can only see your responses so try to be verbose.")
+st.markdown("You’ll talk to an AI tutor about probability. When you're done, click 'Grade Conversation' to get feedback and your score.  The grading system can only see your responses so try to be verbose and include not just your answer, but justification for your answer along with interpretation of results.")
 
 # Sidebar for student info
 with st.sidebar:
