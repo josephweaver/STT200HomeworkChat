@@ -18,7 +18,7 @@ with st.sidebar:
     student_email = st.text_input("Email (optional)")
 
 if not student_id:
-    st.warning("Please enter your Student ID.")
+    st.warning("Please enter your 'Student ID'. As a prototype, just enter any number or letter combination. e.g. 4135 or 3mmf929. this is the primary mechanism by which it saves your progess, so try not to pick number somebody has already used.")
     st.stop()
 
 
