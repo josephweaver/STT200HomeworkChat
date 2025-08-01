@@ -14,11 +14,9 @@ st.markdown("You’ll talk to an AI tutor about probability. When you're done, c
 with st.sidebar:
     st.header("Student Info")
     student_id = st.text_input("Student ID (required to save progress)", max_chars=20)
-    student_name = st.text_input("Full Name (optional)")
-    student_email = st.text_input("Email (optional)")
 
 if not student_id:
-    st.warning("Please enter your 'Student ID'. As a prototype, just enter any number or letter combination. e.g. 4135 or 3mmf929. this is the primary mechanism by which it saves your progess, so try not to pick number somebody has already used.")
+    st.warning("Please enter your 'Student ID'. As a prototype, just enter any number or letter combination. e.g. 4135 or 3mmf929. This is the primary mechanism by which it saves your progress, so try not to pick number somebody has already used.")
     st.stop()
 
 
