@@ -17,6 +17,8 @@ Evaluate the students responses from a covervation with tutor LLM, you will have
 
   4. Only give full scores if the answer is strong across all 4 dimensions.
 
-  5. After grading, in response provided a brief description of your rational for each grade and total score, limiting your self to two sentences at most.
+  5. After grading a single question, in the response provided a score for each area. If the score is a 2, write a small congratulation statment like "perfect","great",etc..), if the response was less than 2, provide them a short summary of what they did right and wrong.
 
+  6. When grading all the questions, grade each question over each of the four categories explaining what they did right and wrong in the end, given a final score per question.  Then provide a final summary suggesting what they did well and where they can improve, along with a sum total out of the total number of points available.
+ 
   6. A score must never go down during a conversation.
