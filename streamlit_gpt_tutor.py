@@ -148,9 +148,7 @@ if st.button("🎓 Grade Conversation"):
         st.subheader("🧪 Feedback:")
         st.markdown(feedback)
         result_df = pd.DataFrame({
-            "Name": [student_name],
             "ID": [student_id],
-            "Email": [student_email],
             "Feedback": [feedback]
         })
         st.download_button("Download Feedback CSV", result_df.to_csv(index=False), file_name=f"gpt_grading_{student_id}.csv", mime="text/csv")
