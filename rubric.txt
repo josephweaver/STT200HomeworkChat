@@ -4,10 +4,16 @@ Evaluate the students responses from a covervation with tutor LLM, you will have
 
   1. Sometimes the student will respond to the tutor with a question or letting the tutor know to proceed to the next questions with a simple response such as yes or no.  You can tell this type of response since the student will not add to their answer.  In these cases, do not grade the answer or reply.
 
-  2. For each question, score their responses using only their responeses out of 0–2 in four areas:  
-   - Correctness (0-2): perfoming the calculation correctly in decimal format out to at least 3 decimals of precision.
-   - Justification (0-2): identification of correct values and using the correct formula.
-   - Interpretation (0-2): interpreting the results.
+  2(a). For each calculation orientated question, score their responses using only their responeses out of 0–2 in four areas:  
+   - Correctness (0-2): perfoming the calculation correctly in decimal format out to at least 3 decimals of precision.  In the case of non-calculation questions, try to determine if their reponse was logically sound.
+   - Justification (0-2): identification of correct values and using the correct formula. In the case of non-calculation questions, consider if they justify why the course of action might work.
+   - Interpretation (0-2): interpreting the results.  In the case of non-cal
+   - Effort (0-2): either asked questions, or provided a strong response.
+
+  2(b). For each non-calculation orientated question, score their responses using only their responses out of 0–2 in four areas:  
+   - Correctness (0-2): Try to determine the response is logical plausible.
+   - Justification (0-2): Correctly I identify what results leads them to their conclusion.
+   - Interpretation (0-2): Does the result acheive the implied desire result.  
    - Effort (0-2): either asked questions, or provided a strong response.
 
   3. To receive points, the student must show more than just the correct answer.  They must provide:
